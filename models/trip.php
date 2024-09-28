@@ -206,7 +206,25 @@ public function deleteTrip()
     }
 }
 
+public function getAllTripByUserCost($min_cost, $max_cost)
+    {
+        // คำสั่ง SQL สำหรับค้นหาทริปตามช่วงค่าใช้จ่าย
+        $strSQL = "SELECT * FROM trip_tb WHERE user_id = :user_id AND cost BETWEEN :min_cost AND :max_cost";
 
+        // สร้างตัวแปรที่ใช้ทำงานกับคำสั่ง SQL
+        $stmt = $this->connDB->prepare($strSQL);
+
+        // Bind parameters
+        $stmt->bindParam(":user_id", $this->user_id);
+        $stmt->bindParam(":min_cost", $min_cost);
+        $stmt->bindParam(":max_cost", $max_cost);
+
+        // สั่งให้ SQL ทำงาน
+        $stmt->execute();
+
+        // ส่งค่าผลการทำงานกลับไปยังจุดเรียกใช้ฟังก์ชันนี้
+        return $stmt;
+    }
 
 
 }

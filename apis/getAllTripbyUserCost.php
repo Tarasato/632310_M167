@@ -25,7 +25,7 @@ if (isset($data->user_id) && isset($data->min_cost) && isset($data->max_cost)) {
     $trip->max_cost = $data->max_cost;
 
     // เรียกใช้ฟังก์ชันดึงข้อมูลทั้งหมดจากตาราง trip_tb ตามช่วงค่าใช้จ่าย
-    $result = $trip->getAllTripByUserCost();
+    $result = $trip->getAllTripByUserCost($min_cost, $max_cost);
 
     // ตรวจสอบว่ามีข้อมูลหรือไม่
     if ($result->rowCount() > 0) {
