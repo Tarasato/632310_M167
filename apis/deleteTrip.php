@@ -1,0 +1,32 @@
+<?php
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: DELETE"); // กำหนดให้สามารถใช้วิธี DELETE
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json; charset=UTF-8");
+
+require_once "./../connectdb.php";
+require_once "./../models/trip.php";
+
+// สร้าง Instance (Object/ตัวแทน)
+$connDB = new ConnectDB();
+$trip = new Trip($connDB->getConnectionDB());
+
+// รับข้อมูล JSON ที่ส่งมาจาก Client
+$data = json_decode(file_get_contents("php://input"));
+
+// ตรวจสอบว่ามีการส่ง trip_id มาหรือไม่
+if (isset($data->trip_id)) {
+    $trip->trip_id = $data->trip_id; // กำหนดค่า trip_id
+
+    // เรียกใช้ฟังก์ชันสำหรับลบข้อมูลการเดินทาง
+    if ($trip->deleteTrip()) {
+        // ส่งผลลัพธ์การลบข้อมูลสำเร็จ
+        echo json_encode(array("message" => "1"));
+    } else {
+        // ส่งผลลัพธ์การลบข้อมูลไม่สำเร็จ
+        echo json_encode(array("message" => "0"));
+    }
+} else {
+    // ส่งผลลัพธ์เมื่อไม่มีการส่ง trip_id
+    echo json_encode(array("message" => "ไม่พบ trip_id"));
+}
