@@ -29,10 +29,11 @@ if ($result->rowCount() > 0) {
     //สร้างตัวแปรอาร์เรย์เก็บข้อมูล
     $resultArray = array(
         "message" => "1",
-        "user_id" => $user_id,
-        "username" => $username,
-        "password"=> $password,
-        "email" => $email
+        "user_id" => strval($user_id),
+        "username" => strval($username),
+        "password"=> strval($password),
+        "email" => strval($email),
+        "phone" => strval($phone)
     );
     echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
     //echo json_encode(array("message" => "เข้าสู่ระบบ!!"));

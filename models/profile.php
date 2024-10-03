@@ -9,6 +9,9 @@ class Profile{
     public $username;
     public $email;
     public $password;
+    public $fullname;
+    public $phone;
+    public $userpicture;
      //ตัวแปรสารพัดประโยชน์
     public $message;
      //constructor
@@ -51,6 +54,9 @@ class Profile{
     $this->username = htmlspecialchars(strip_tags($this->username));
     $this->email = htmlspecialchars(strip_tags($this->email));
     $this->password = htmlspecialchars(strip_tags($this->password));
+    $this->fullname = htmlspecialchars(strip_tags($this->fullname));
+    $this->phone = htmlspecialchars(strip_tags($this->phone));
+    $this->userpicture = htmlspecialchars(strip_tags($this->userpicture));
 
     //สร้างตัวแปรสที่ใช้ทำงานกับคำสั่งsql
     $stmt = $this->connDB->prepare($strSQL);
@@ -60,6 +66,9 @@ class Profile{
     $stmt->bindParam(":username", $this->username);
     $stmt->bindParam(":email", $this->email);
     $stmt->bindParam(":password", $this->password);
+    $stmt->bindParam(":fullname", $this->fullname);
+    $stmt->bindParam(":phone", $this->phone);
+    $stmt->bindParam(":userpicture", $this->userpicture);
 
     //สั่งsqlให้ทำงาน
     if ($stmt->execute()) {
