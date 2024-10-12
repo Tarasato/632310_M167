@@ -20,7 +20,7 @@ $profile->password = $data->password;
 $profile->email = $data->email;
 $profile->fullname = $data->fullname;
 $profile->phone = $data->phone;
-$profile->userpicture = $data->userpicture;
+//$profile->userpicture = $data->userpicture;
 
 //เรียกใช้ฟังก์ชันตรวจสอบชื่อผู้ใช้ รหัสผ่าน
 $result = $profile->newProfile();
