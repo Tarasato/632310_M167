@@ -16,6 +16,10 @@ class Trip{
     public $min_cost;
     public $max_cost;
     public $created_at;
+    public $trippic;
+    public $trippic2;
+    public $trippic3;
+    public $day_Travel;
      //ตัวแปรสารพัดประโยชน์
     public $message;
      //constructor
@@ -44,7 +48,7 @@ public function getAllTrip()
     public function insertTrip()
     {
         //ตัวแปรเก็บคำสั่ง SQL
-        $strSQL = "  INSERT INTO trip_tb ( `user_id`, `location_name`,`start_date`, `end_date`, `latitude`, `longitude`, `cost`) VALUES (:user_id, :location_name, :start_date, :end_date, :latitude, :longitude, :cost);";
+        $strSQL = "  INSERT INTO trip_tb ( `user_id`, `location_name`,`start_date`, `end_date`, `latitude`, `longitude`, `cost`, `trippic`, `trippic2`, `trippic3`, `day_Travel`) VALUES (:user_id, :location_name, :start_date, :end_date, :latitude, :longitude, :cost, :trippic, :trippic2, :trippic3, :day_Travel);";
 
         //ตรวจสอบค่าที่ถูกส่งจาก Client/User ก่อนที่จะกำหนดให้กับ parameters (:????)
         $this->user_id = intval(htmlspecialchars(strip_tags($this->user_id)));
@@ -54,6 +58,10 @@ public function getAllTrip()
         $this->latitude = htmlspecialchars(strip_tags($this->latitude));
         $this->longitude = htmlspecialchars(strip_tags($this->longitude));
         $this->cost = intval(htmlspecialchars(strip_tags($this->cost)));
+        $this->day_Travel = intval(htmlspecialchars(strip_tags($this->day_Travel)));
+        $this->trippic = htmlspecialchars(strip_tags($this->trippic));
+        $this->trippic2 = htmlspecialchars(strip_tags($this->trippic2));
+        $this->trippic3 = htmlspecialchars(strip_tags($this->trippic3));
 
         //สร้างตัวแปรที่ใช้ทำงานกับคำสั่ง SQL
         $stmt = $this->connDB->prepare($strSQL);
@@ -66,6 +74,10 @@ public function getAllTrip()
         $stmt->bindParam(":latitude", $this->latitude);
         $stmt->bindParam(":longitude", $this->longitude);
         $stmt->bindParam(":cost", $this->cost);
+        $stmt->bindParam(":trippic", $this->trippic);
+        $stmt->bindParam(":trippic2", $this->trippic2);
+        $stmt->bindParam(":trippic3", $this->trippic3);
+        $stmt->bindParam(":day_Travel", $this->day_Travel);
 
 
         //สั่งให้ SQL ทำงาน และส่งผลลัพธ์ว่าเพิ่มข้อมูลสําเร็จหรือไม่
@@ -143,17 +155,9 @@ public function updateTrip()
 {
     // ตัวแปรเก็บคำสั่ง SQL สำหรับการอัปเดตข้อมูล
     $strSQL = "UPDATE trip_tb 
-               SET user_id = :user_id, 
-                   location_name = :location_name, 
-                   start_date = :start_date, 
-                   end_date = :end_date, 
-                   latitude = :latitude, 
-                   longitude = :longitude, 
-                   cost = :cost 
-               WHERE trip_id = :trip_id";
+               SET `location_name` = :location_name, `start_date` = :start_date, `end_date` = :end_date, `latitude` = :latitude, `longitude` = :longitude, `cost` = :cost, `trippic` = :trippic, `trippic2` = :trippic2, `trippic3` = :trippic3, `day_Travel` = :day_Travel WHERE `trip_id` = :trip_id";
 
     // ตรวจสอบและทำความสะอาดค่าที่ถูกส่งจาก Client/User ก่อนที่จะกำหนดให้กับ parameters (:????)
-    $this->user_id = intval(htmlspecialchars(strip_tags($this->user_id)));
     $this->location_name = htmlspecialchars(strip_tags($this->location_name));
     $this->start_date = htmlspecialchars(strip_tags($this->start_date));
     $this->end_date = htmlspecialchars(strip_tags($this->end_date));
@@ -161,12 +165,15 @@ public function updateTrip()
     $this->longitude = htmlspecialchars(strip_tags($this->longitude));
     $this->cost = floatval(htmlspecialchars(strip_tags($this->cost)));
     $this->trip_id = intval(htmlspecialchars(strip_tags($this->trip_id)));
+    $this->trippic = htmlspecialchars(strip_tags($this->trippic));
+    $this->trippic2 = htmlspecialchars(strip_tags($this->trippic2));
+    $this->trippic3 = htmlspecialchars(strip_tags($this->trippic3));
+    $this->day_Travel = intval(htmlspecialchars(strip_tags($this->day_Travel)));
 
     // สร้างตัวแปรที่ใช้ทำงานกับคำสั่ง SQL
     $stmt = $this->connDB->prepare($strSQL);
 
     // กำหนดค่าให้กับ parameters
-    $stmt->bindParam(":user_id", $this->user_id);
     $stmt->bindParam(":location_name", $this->location_name);
     $stmt->bindParam(":start_date", $this->start_date);
     $stmt->bindParam(":end_date", $this->end_date);
@@ -174,6 +181,10 @@ public function updateTrip()
     $stmt->bindParam(":longitude", $this->longitude);
     $stmt->bindParam(":cost", $this->cost);
     $stmt->bindParam(":trip_id", $this->trip_id);
+    $stmt->bindParam(":trippic", $this->trippic);
+    $stmt->bindParam(":trippic2", $this->trippic2);
+    $stmt->bindParam(":trippic3", $this->trippic3);
+    $stmt->bindParam(":day_Travel", $this->day_Travel);
 
     // สั่งให้ SQL ทำงาน และส่งผลลัพธ์ว่าอัปเดตข้อมูลสำเร็จหรือไม่
     if ($stmt->execute()) {

@@ -33,7 +33,9 @@ if ($result->rowCount() > 0) {
         "username" => strval($username),
         "password"=> strval($password),
         "email" => strval($email),
-        "phone" => strval($phone)
+        "phone" => strval($phone),
+        "fullname" => $fullname,
+        "upic" => strval($upic)
     );
     echo json_encode($resultArray, JSON_UNESCAPED_UNICODE);
     //echo json_encode(array("message" => "เข้าสู่ระบบ!!"));

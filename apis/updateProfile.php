@@ -1,6 +1,6 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST"); //POST-INSERT, PUT-Update, DELETE
+header("Access-Control-Allow-Methods: PUT"); //POST, PUT, DELETE
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json; charset=UTF-8");
 
@@ -15,26 +15,36 @@ $profile = new Profile($connDB->getConnectionDB());
 $data = json_decode(file_get_contents("php://input"));
 
 //เอาค่าในตัวแปรกำหนดให้กับ ตัวแปรของ Model ที่สร้างไว้
-$profile->username = $data->username;
-$profile->password = $data->password;    
+$profile->user_id = $data->user_id;
 $profile->email = $data->email;
-$profile->fullname = $data->fullname;
+$profile->username = $data->username;
+$profile->password = $data->password;
 $profile->phone = $data->phone;
 
-//------อัพรูปแบบ Base 64-------
-//เก็บรูป Base64 ไว้ในตัวแปร
-$picture_temp = $data->upic;
-//ตั้งชื่อรูปใหม่เพื่อใช้กับรูปที่เป็น Base 64 ที่ส่งมา
-$picture_filename = "upic_" . uniqid() . "_"  . round(microtime(true)*1000) . ".png";
-//เอารูปที่เป็น Base64 แปลงเป็นรูปแล้วเก็บไว้ใน picupload/food/
-//file_put_contents(ที่อยู่ของไฟล์+ชื่อไฟล์, ตัวไฟล์ที่จะอัปโหลดไว้)
-file_put_contents("./../picupload/userpics/" . $picture_filename, base64_decode($picture_temp));
-//เอาชื่อไฟล์ไปกำหนดให้กับตัวแปรที่จะเก็บลงในฐานข้อมูล
-$profile->upic = $picture_filename;
-//---------------------------------
+//กรณีแก้ไขต้องตรวจสอบก่อนว่ามีการอัพโหลดรูปไหมมาหรือไม่
+if(isset($data->upic)){
+    //------อัพรูปแบบ Base 64-------
+    //เก็บรูป Base64 ไว้ในตัวแปร
+    $picture_temp = $data->upic;
+    //ตั้งชื่อรูปใหม่เพื่อใช้กับรูปที่เป็น Base 64 ที่ส่งมา
+    $picture_filename = "upic_" . uniqid() . "_"  . round(microtime(true)*10) . ".png";
+    //เอารูปที่เป็น Base64 แปลงเป็นรูปแล้วเก็บไว้ใน picupload/food/
+    //file_put_contents(ที่อยู่ของไฟล์+ชื่อไฟล์, ตัวไฟล์ที่จะอัปโหลดไว้)
+    file_put_contents("./../picupload/userpics/" . $picture_filename, base64_decode($picture_temp));
+    //เอาชื่อไฟล์ไปกำหนดให้กับตัวแปรที่จะเก็บลงในฐานข้อมูล
+    $profile->upic = $picture_filename;
+    //---------------------------------
+}else{
+    $profile->upic = "";
+}
 
+if(isset($data->fullname)){
+    $profile->fullname = $data->fullname;
+}else if(!isset($data->fullname)){
+    $profile->fullname = "";
+}
 //เรียกใช้ฟังก์ชันตรวจสอบชื่อผู้ใช้ รหัสผ่าน
-$result = $profile->newProfile();
+$result = $profile->updateProfile();
 
 //ตรวจสอบข้อมูลจากการเรัยกใช้ฟังก์ชันตรวจสอบชื่อผู้ใช้ รหัสผ่าน
 if ($result == 1) {
@@ -68,3 +78,6 @@ if ($result == 1) {
 
 
 
+
+
+?>

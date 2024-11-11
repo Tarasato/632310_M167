@@ -36,6 +36,7 @@ if ($result->rowCount() > 0) {
             "latitude" => strval($latitude),
             "longitude" => strval($longitude),
             "cost" => strval($cost),
+            "day_Travel" => strval($day_Travel)
         );
         array_push($resultInfo, $resultArray);
     }
